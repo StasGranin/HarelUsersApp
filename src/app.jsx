@@ -7,9 +7,9 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import {applyMiddleware, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk'
-import reducers from './reducers/index.js';
+import reducers from './reducers/index';
 
-import PrivateRoute from './components/privateRoute.component/privateRoute.component';
+import PrivateRoute from './components/privateRoute.component/privateRoute.component.jsx';
 import MainPage from './components/pages/mainPage.component/mainPage.component.jsx';
 import LoginPage from './components/pages/loginPage.component/loginPage.component.jsx';
 import EditUserPage from './components/pages/editUserPage.component/editUserPage.component.jsx';
