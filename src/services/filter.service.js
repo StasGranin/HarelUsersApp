@@ -9,19 +9,75 @@ export const filterTypes = {
 	[dataTypes.DATE]: {TODAY: 'TODAY', THIS_WEEK: 'THIS_WEEK', THIS_MONTH: 'THIS_MONTH', THIS_YEAR: 'THIS_YEAR', OLDER: 'OLDER'}
 };
 
+export class Filters {
+
+	constructor(initialFilterItems = []) {
+		this.filters = {
+			count: 0,
+			keys: {},
+			items: initialFilterItems
+		};
+
+		this.update();
+	}
+
+	getFilters() {
+		return this.filters;
+	}
+
+	getFilter(key) {
+		const {filters} = this;
+		return filters.items[filters.keys[key]];
+	}
+
+	setFilter(filterItem) {
+		const {filters} = this;
+
+		if (filters.keys[filterItem.key]) {
+			filters.items[filters.keys[filterItem.key]] = filterItem;
+		}
+		else {
+			filters.items.push(filterItem);
+			this.update();
+		}
+
+		return filters;
+	}
+
+	removeFilter(filterItem) {
+		const {filters} = this;
+		const itemIndex = filters.keys[filterItem.key];
+
+		if (itemIndex !== undefined) {
+			filters.items.splice(itemIndex, 1);
+			this.update();
+		}
+
+		return filters;
+	}
+
+	update() {
+		const {filters} = this;
+
+		filters.keys = {};
+		filters.items.forEach((item, index) => filters.keys[item.key] = index);
+		filters.count = filters.items.length;
+	}
+}
+
 class FilterService {
 	filterArray(arr, filter) {
 		return arr.filter(item => {
 			switch (filter.dataType) {
 				case dataTypes.NUMBER:
-					return this.numberFilterFn(item[filter.key], filter.filterType, filter.value);
+					return this.numberFilterFn(item[filter.key], filter.type, filter.value);
 
 				case dataTypes.DATE:
-					return this.stringFilterFn(item[filter.key], filter.filterType);
+					return this.stringFilterFn(item[filter.key], filter.type);
 
 				case dataTypes.STRING:
 				default:
-					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join('@@@'), filter.filterType || filterTypes.STRING.CONTAINING, filter.value);
+					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join('@@@'), filter.type || filterTypes.STRING.CONTAINING, filter.value);
 			}
 		});
 	}
@@ -40,7 +96,7 @@ class FilterService {
 				return value === filterValue;
 
 			case filters.NOT_EQUALS:
-				return value != filterValue;
+				return value !== filterValue;
 		}
 	}
 
@@ -52,7 +108,7 @@ class FilterService {
 				return value === filterValue;
 
 			case filters.NOT_EQUALS:
-				return value != filterValue;
+				return value !== filterValue;
 
 			case filters.CONTAINING:
 				return value.includes(filterValue);

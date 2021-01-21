@@ -1,6 +1,6 @@
 'use strict';
 
-export const sortDirection = {ASC: 'ASC', DESC: 'DESC'};
+export const sortDirections = {ASC: 'ASC', DESC: 'DESC'};
 
 class SortService {
 	sortArray(arr, key, direction) {
@@ -8,11 +8,13 @@ class SortService {
 			const aValue = a[key];
 			const bValue = b[key];
 
-			if (direction === sortDirection.ASC) {
-				return aValue < bValue ? -1 : 1
-			}
-			else {
-				return aValue > bValue ? -1 : 1
+			switch (direction) {
+				case sortDirections.ASC:
+					return aValue > bValue ? -1 : 1;
+				case sortDirections.DESC:
+					return aValue < bValue ? -1 : 1;
+				default:
+					return 0;
 			}
 		});
 	}
