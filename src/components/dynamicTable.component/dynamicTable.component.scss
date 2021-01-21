@@ -1,0 +1,94 @@
+.dynamicTable {
+
+	.filtersTags {
+		display: flex;
+		align-items: center;
+		padding: 10px 20px;
+		background: #f0f0f0;
+		border-radius: 10px;
+		margin-bottom: 20px;
+
+		.tag {
+			display: flex;
+			align-items: center;
+			padding: 5px 10px;
+			margin-left: 10px;
+			background: #539ef5;
+			color: white;
+			border-radius: 5px;
+
+			.x {
+				width: 12px;
+				height: 12px;
+				margin-left: 10px;
+				background: white;
+				border-radius: 20px;
+				cursor: pointer;
+			}
+		}
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		text-align: center;
+
+		th {
+			border-bottom: 2px solid #444444;
+			.content {
+				display: flex;
+				align-items: center;
+				padding: 5px 10px;
+
+				.actions {
+					display: flex;
+					align-items: center;
+					margin-left: 10px;
+
+					.button {
+						background: no-repeat url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAzAgMAAAAMZwtUAAAADFBMVEUAAAD///////8AAAA4fh26AAAAA3RSTlMAWTSwu9Z2AAAAWElEQVQY02PABJyhoREMDOz//38Bsv//v8HAwFT/PwEoMf9vA5BU/wZSxP4FO8kZwUA6YAoNBZrP+P//Bax2cd4AKwIKUwaYEqCmQUyG2AK2EWo71CX4AQDYliS4HuPf8AAAAABJRU5ErkJggg==');
+						width: 17px;
+						height: 17px;
+						margin-right: 5px;
+						border-radius: 3px;
+						cursor: pointer;
+
+						&:last-child {margin-right: 0}
+						&:hover {background-color: #cccccc}
+					}
+
+					.sort {
+						visibility: hidden;
+
+						&.desc {background-position: 0 -17px}
+						&.asc {background-position: 0 -34px}
+						&.current {visibility: visible}
+					}
+
+					.filter {
+						visibility: hidden;
+					}
+				}
+
+				&:hover .actions .button {visibility: visible}
+			}
+		}
+
+		.tableItemRow {
+			cursor: pointer;
+
+			&:hover {
+				background: wheat;
+			}
+
+			td {
+				padding: 5px 10px;
+				border-bottom: 1px solid #eeeeee;
+			}
+
+			&:last-child td {border-bottom: 0 none}
+
+		}
+
+	}
+}
