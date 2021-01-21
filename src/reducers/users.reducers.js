@@ -1,13 +1,16 @@
 'use strict';
 
-import {LOGIN, IS_LOGGED_IN} from '../actions/auth.actions';
+import {GET_USERS, GET_USER} from '../actions/users.actions';
 
-export const usersReducers = (state = {isLoggedIn: false}, action) => {
+export const usersReducers = (state = {users: []}, action) => {
+	const {type, payload} = action;
 
-	switch (action.type) {
+	switch (type) {
 
-		case IS_LOGGED_IN:
-			return state;
+		case GET_USERS:
+			return Object.assign({}, state, {
+				users: payload.users,
+			});
 	}
 
 	return state;
