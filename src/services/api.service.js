@@ -6,7 +6,7 @@ export const LOGIN_API = `${API}/login`;
 export const USERS_API = `${API}/users`;
 
 class ApiService {
-	fetch (url, options) {
+	fetch (url, options = {}) {
 		let fetchOptions = {
 			headers: {'Content-Type': 'application/json'},
 			method: options.method || 'GET'
