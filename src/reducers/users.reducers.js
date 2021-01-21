@@ -8,7 +8,7 @@ export const usersReducers = (state = {users: []}, action) => {
 	switch (type) {
 
 		case GET_USERS:
-			return Object.assign({}, state, {
+			return ({...state,
 				users: payload.users,
 			});
 	}
