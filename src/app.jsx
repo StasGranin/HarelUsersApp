@@ -14,6 +14,8 @@ import MainPage from './components/pages/mainPage.component/mainPage.component.j
 import LoginPage from './components/pages/loginPage.component/loginPage.component.jsx';
 import EditUserPage from './components/pages/editUserPage.component/editUserPage.component.jsx';
 
+import './app.scss';
+
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
