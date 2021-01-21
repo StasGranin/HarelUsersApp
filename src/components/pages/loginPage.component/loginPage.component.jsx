@@ -1,23 +1,27 @@
 "use strict";
 
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {login} from '../../../actions/auth.actions';
 
-import './addCityPage.component.scss';
+import './loginPage.component.scss';
 
 
 
 const LoginPage = ({isLoggedIn, login}) => {
 
+	const loginButtonOnClick = () => {
+
+		login({});
+	};
 
 	return (
 		<div className="loginPage">
 			<div>Is logged in: {isLoggedIn}</div>
 
-			<button onClick={login}></button>
+			<button onClick={loginButtonOnClick}>Login</button>
 
 		</div>
 	);
