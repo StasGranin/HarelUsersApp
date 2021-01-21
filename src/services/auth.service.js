@@ -9,10 +9,16 @@ class AuthService {
 			withAuthHeaders: false,
 			body: loginData
 		}).then(result => {
-			localStorage.setItem('auth', JSON.stringify({accessToken: result}));
+			localStorage.setItem('auth', JSON.stringify({accessToken: result.token}));
 
 			return result;
 		});
+	}
+
+	isLoggedIn() {
+		const user = JSON.parse(localStorage.getItem('auth'));
+
+		return user.accessToken && true || false;
 	}
 }
 
