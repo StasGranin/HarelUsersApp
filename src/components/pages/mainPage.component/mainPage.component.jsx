@@ -8,18 +8,19 @@ import moment from 'moment';
 import DynamicTable from '../../dynamicTable.component/dynamicTable.component.jsx';
 import {getUsers} from '../../../actions/users.actions';
 import {dataTypes} from '../../../services/filter.service';
+import {texts} from '../../../services/language.service';
 
 import './mainPage.component.scss';
 
 
 const MainPage = ({users, getUsers}) => {
 
-	const usersTableHeaders = [
-		{key: 'id', dataType: dataTypes.NUMBER, label: 'ID'},
-		{key: 'firstName', dataType: dataTypes.STRING, label: 'First Name'},
-		{key: 'lastName', dataType: dataTypes.STRING, label: 'Last Name'},
-		{key: 'date', dataType: dataTypes.DATE, label: 'Date', dataFormat: data => moment(data).format('DD/MM/YYYY')},
-		{key: 'phone', dataType: dataTypes.NUMBER, label: 'Phone'},
+	const usersTableColumns = [
+		{key: 'id', dataType: dataTypes.NUMBER, label: texts.usersTableColumnLabels.ID},
+		{key: 'firstName', dataType: dataTypes.STRING, label: texts.usersTableColumnLabels.FIRST_NAME},
+		{key: 'lastName', dataType: dataTypes.STRING, label: texts.usersTableColumnLabels.LAST_NAME},
+		{key: 'date', dataType: dataTypes.DATE, label: texts.usersTableColumnLabels.DATE, dataFormat: data => moment(data).format('DD/MM/YYYY')},
+		{key: 'phone', dataType: dataTypes.STRING, label: texts.usersTableColumnLabels.PHONE},
 	];
 
 	useEffect(()=> {getUsers()}, []);
@@ -31,7 +32,7 @@ const MainPage = ({users, getUsers}) => {
 			</div>
 
 			<div className="panel usersTable">
-				<DynamicTable headers={usersTableHeaders} tableData={users} />
+				<DynamicTable tableColumns={usersTableColumns} tableData={users} />
 			</div>
 
 		</div>
