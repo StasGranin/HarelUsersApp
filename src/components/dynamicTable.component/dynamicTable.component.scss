@@ -3,9 +3,6 @@
 	.filtersTags {
 		display: flex;
 		align-items: center;
-		padding: 10px 20px;
-		background: #f0f0f0;
-		border-radius: 10px;
 		margin-bottom: 20px;
 
 		.tag {
@@ -45,7 +42,7 @@
 					align-items: center;
 					margin-left: 10px;
 
-					.button {
+					.actionButton {
 						background: no-repeat url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAzAgMAAAAMZwtUAAAADFBMVEUAAAD///////8AAAA4fh26AAAAA3RSTlMAWTSwu9Z2AAAAWElEQVQY02PABJyhoREMDOz//38Bsv//v8HAwFT/PwEoMf9vA5BU/wZSxP4FO8kZwUA6YAoNBZrP+P//Bax2cd4AKwIKUwaYEqCmQUyG2AK2EWo71CX4AQDYliS4HuPf8AAAAABJRU5ErkJggg==');
 						width: 17px;
 						height: 17px;
@@ -70,7 +67,7 @@
 					}
 				}
 
-				&:hover .actions .button {visibility: visible}
+				&:hover .actions .actionButton {visibility: visible}
 			}
 		}
 
@@ -84,6 +81,7 @@
 			td {
 				padding: 5px 10px;
 				border-bottom: 1px solid #eeeeee;
+				text-align: left;
 			}
 
 			&:last-child td {border-bottom: 0 none}

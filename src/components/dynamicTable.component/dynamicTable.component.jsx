@@ -2,19 +2,15 @@
 
 import React, {useState, useEffect} from 'react';
 
+import FilterModal from '../filterModal.component/filterModal.component.jsx';
 import FilterService, {Filters} from '../../services/filter.service';
 import SortService, {sortDirections} from '../../services/sort.service';
+import {texts} from '../../services/language.service';
 
 import './dynamicTable.component.scss';
 
-
-const filters = new Filters([
-	{key: 'id', label: 'ID: Less than 1', dataType: 'NUMBER', type: 'LESS_THAN', value: 10},
-	{key: 'lastName', label: 'Last name: Containing "a"', dataType: 'STRING', type: 'CONTAINING', value: 'a'}
-]);
-
-const updateTableData = (tableData, filterProps, sortingProps) => {
-	filterProps.items.forEach(filter => {
+const updateTableData = (tableData, filters, sortingProps) => {
+	filters.forEach(filter => {
 		tableData = FilterService.filterArray(tableData, filter)
 	});
 
@@ -41,37 +37,78 @@ const determineSortButtonClassName = (key, sortingProps) => {
 	return sortClass;
 };
 
-export default ({headers, tableData, onItemClick}) => {
+const updateColumnFilter = (filter, filters) => {
+	const existingFilterIndex = filters.findIndex(item => item.key === filter.key);
+
+	if (filter.value === '') {
+		if (existingFilterIndex !== -1) {
+			filters.splice(existingFilterIndex, 1);
+		}
+	}
+	else {
+		if (existingFilterIndex !== -1) {
+			filters[existingFilterIndex] = filter;
+		}
+		else {
+			filters.push(filter);
+		}
+	}
+
+	return filters;
+};
+
+const getFilterByKey = (key, filters) => filters.find(item => item.key === key);
+
+//{key: 'id', label: 'ID', dataType: 'NUMBER', type: 'LESS_THAN', value: 10}, {key: 'lastName', label: 'Last Name', dataType: 'STRING', type: 'CONTAINING', value: 'a'}
+
+export default ({tableColumns, tableData, onItemClick}) => {
 
 	const [filteredTableData, setFilteredTableData] = useState([]);
 	const [sortingProps, setSortingProps] = useState({});
-	const [filterProps, setFilterProps] = useState(filters.getFilters());
-	const removeFilter = filter => setFilterProps({...filters.removeFilter(filter)});
-	const sort = key => setSortingProps({key, direction: determineSortDirection(key, sortingProps)});
+	const [filters, setFilters] = useState([]);
+	const [columnFilterModalProps, setColumnFilterModalProps] = useState({});
 
-	useEffect(() => setFilteredTableData([...updateTableData(tableData, filterProps, sortingProps)]), [tableData, filterProps, sortingProps]);
+	const openColumnFilterModal = column => setColumnFilterModalProps({show: true, column, currentFilter: getFilterByKey(column.key, filters)});
+	const sortColumn = key => setSortingProps({key, direction: determineSortDirection(key, sortingProps)});
+	const applyColumnFilter = filter => {
+		filter && setFilters([...updateColumnFilter(filter, filters)]);
+		setColumnFilterModalProps({show: false});
+	};
+
+	useEffect(() => setFilteredTableData([...updateTableData(tableData, filters, sortingProps)]), [tableData, filters, sortingProps]);
+
 
 	return (
 		<div className="dynamicTable">
-			{filterProps.count && <div className="filtersTags">
-				<div>Filters:</div>
-				{filterProps.items.map(filter => <div className="tag" key={filter.key}>
-					<div className="label">{filter.label}</div>
-					<div className="x" onClick={()=> removeFilter(filter)}></div>
+			{filters.length && <div className="filtersTags innerPanel">
+				<div>{texts.filters.FILTERS}:</div>
+				{filters.map(filter => <div className="tag" key={filter.key}>
+					<div className="label">
+						<span>{filter.label}: </span>
+						{filter.type &&
+							<span>
+								{texts.filters.filterTypes[filter.dataType][filter.type]} "<b>{filter.value}</b>"
+							</span> ||
+							<span>
+								<b>{texts.filters.filterTypes[filter.dataType][filter.value]}</b>
+							</span>
+						}
+						</div>
+					<div className="x" onClick={()=> applyColumnFilter({...filter, value: ''})}></div>
 				</div>)}
 			</div> || <></>}
 
 			<table>
 				<thead>
 					<tr>
-						{headers.map(header => <th key={header.key}>
+						{tableColumns.map(column => <th key={column.key}>
 							<div className="content">
-								<div className="label">{header.label}</div>
+								<div className="label">{column.label}</div>
 								<div className="actions">
 									<div
-										className={`button sort ${determineSortButtonClassName(header.key, sortingProps)}`}
-										onClick={() => sort(header.key)} />
-									<div className="button filter"></div>
+										className={`actionButton sort ${determineSortButtonClassName(column.key, sortingProps)}`}
+										onClick={() => sortColumn(column.key)} />
+									<div className="actionButton filter" onClick={(event) => openColumnFilterModal(column)}></div>
 								</div>
 							</div>
 						</th>)}
@@ -79,12 +116,13 @@ export default ({headers, tableData, onItemClick}) => {
 				</thead>
 				<tbody>
 					{filteredTableData.map((item, index) => <tr className="tableItemRow" key={index} onClick={()=>onItemClick(item)}>
-						{headers.map(header => <td key={`${header.key}.${index}`}>
-							{header.dataFormat && typeof header.dataFormat === 'function' && header.dataFormat(item[header.key]) || item[header.key]}
+						{tableColumns.map(column => <td key={`${column.key}.${index}`}>
+							{column.dataFormat && typeof column.dataFormat === 'function' && column.dataFormat(item[column.key]) || item[column.key]}
 						</td>)}
 					</tr>)}
 				</tbody>
 			</table>
+			{columnFilterModalProps.show && <FilterModal {...columnFilterModalProps} onApplyFilter={applyColumnFilter} />}
 		</div>
 	);
 };
