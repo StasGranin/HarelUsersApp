@@ -18,7 +18,7 @@ class AuthService {
 	isLoggedIn() {
 		const user = JSON.parse(localStorage.getItem('auth'));
 
-		return user.accessToken && true || false;
+		return user && user.accessToken && true || false;
 	}
 }
 

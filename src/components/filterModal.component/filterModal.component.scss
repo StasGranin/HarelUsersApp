@@ -1,0 +1,37 @@
+.modal {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0,0,0,0.5);
+
+	.box {
+		position: absolute;
+
+		.title {
+			font-size: 24px;
+			margin-bottom: 20px;
+		}
+
+		.filter {
+			margin-bottom: 20px;
+			display: flex;
+			width: 400px;
+
+			input {margin-left: 10px;}
+			.longInput {flex-grow: 1}
+		}
+
+		.actions {
+			display: flex;
+			justify-content: flex-end;
+
+			.button {margin-left: 10px;}
+		}
+
+	}
+}

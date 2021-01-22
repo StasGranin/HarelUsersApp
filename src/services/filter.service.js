@@ -6,78 +6,44 @@ export const dataTypes = {NUMBER: 'NUMBER', STRING: 'STRING', DATE: 'DATE'};
 export const filterTypes = {
 	[dataTypes.NUMBER]: {LESS_THAN: 'LESS_THAN', GREATER_THAN: 'GREATER_THAN', EQUALS: 'EQUALS', NOT_EQUALS: 'NOT_EQUALS'},
 	[dataTypes.STRING]: {EQUALS: 'EQUALS', NOT_EQUALS: 'NOT_EQUALS', CONTAINING: 'CONTAINING', NOT_CONTAINING: 'NOT_CONTAINING'},
-	[dataTypes.DATE]: {TODAY: 'TODAY', THIS_WEEK: 'THIS_WEEK', THIS_MONTH: 'THIS_MONTH', THIS_YEAR: 'THIS_YEAR', OLDER: 'OLDER'}
+	[dataTypes.DATE]: {ALL: 'ALL', TODAY: 'TODAY', THIS_WEEK: 'THIS_WEEK', THIS_MONTH: 'THIS_MONTH', THIS_YEAR: 'THIS_YEAR', OLDER: 'OLDER'}
 };
 
-export class Filters {
-
-	constructor(initialFilterItems = []) {
-		this.filters = {
-			count: 0,
-			keys: {},
-			items: initialFilterItems
-		};
-
-		this.update();
-	}
-
-	getFilters() {
-		return this.filters;
-	}
-
-	getFilter(key) {
-		const {filters} = this;
-		return filters.items[filters.keys[key]];
-	}
-
-	setFilter(filterItem) {
-		const {filters} = this;
-
-		if (filters.keys[filterItem.key]) {
-			filters.items[filters.keys[filterItem.key]] = filterItem;
-		}
-		else {
-			filters.items.push(filterItem);
-			this.update();
-		}
-
-		return filters;
-	}
-
-	removeFilter(filterItem) {
-		const {filters} = this;
-		const itemIndex = filters.keys[filterItem.key];
-
-		if (itemIndex !== undefined) {
-			filters.items.splice(itemIndex, 1);
-			this.update();
-		}
-
-		return filters;
-	}
-
-	update() {
-		const {filters} = this;
-
-		filters.keys = {};
-		filters.items.forEach((item, index) => filters.keys[item.key] = index);
-		filters.count = filters.items.length;
-	}
-}
-
 class FilterService {
+
+	createEmptyFilter(column) {
+		const {key, label, dataType} = column;
+		let initialType;
+
+		switch (dataType) {
+			case dataTypes.NUMBER:
+				initialType = filterTypes[dataTypes.NUMBER].EQUALS;
+				break;
+
+			case dataTypes.STRING:
+				initialType = filterTypes[dataTypes.STRING].CONTAINING;
+				break;
+
+			case dataTypes.DATE:
+				initialType = '';
+				break;
+		}
+
+		return {key, label, dataType, type: initialType, value: ''}
+	}
+
 	filterArray(arr, filter) {
 		return arr.filter(item => {
 			switch (filter.dataType) {
 				case dataTypes.NUMBER:
-					return this.numberFilterFn(item[filter.key], filter.type, filter.value);
+					return this.numberFilterFn(item[filter.key], filter.type, parseFloat(filter.value));
 
 				case dataTypes.DATE:
-					return this.stringFilterFn(item[filter.key], filter.type);
+					return this.dateFilterFn(item[filter.key], filter.value);
 
 				case dataTypes.STRING:
 				default:
-					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join('@@@'), filter.type || filterTypes.STRING.CONTAINING, filter.value);
+					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join('@@@'), filter.type || filterTypes[dataTypes.STRING].CONTAINING, filter.value);
 			}
 		});
 	}
@@ -103,6 +69,9 @@ class FilterService {
 	stringFilterFn(value, filterType, filterValue) {
 		const filters = filterTypes[dataTypes.STRING];
 
+		value = value.toLowerCase();
+		filterValue = filterValue.toLowerCase();
+
 		switch (filterType) {
 			case filters.EQUALS:
 				return value === filterValue;
@@ -118,11 +87,11 @@ class FilterService {
 		}
 	}
 
-	dateFilterFn(value, filterType) {
+	dateFilterFn(value, filterValue) {
 		const filters = filterTypes[dataTypes.DATE];
 		const today = moment();
 
-		switch (filterType) {
+		switch (filterValue) {
 			case filters.TODAY:
 				return moment(value).format('YYYY-MM-DD') === today.format('YYYY-MM-DD');
 
