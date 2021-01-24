@@ -20,12 +20,13 @@ class FilterService {
 				initialType = filterTypes[dataTypes.NUMBER].EQUALS;
 				break;
 
-			case dataTypes.STRING:
-				initialType = filterTypes[dataTypes.STRING].CONTAINING;
-				break;
-
 			case dataTypes.DATE:
 				initialType = '';
+				break;
+
+			case dataTypes.STRING:
+			default:
+				initialType = filterTypes[dataTypes.STRING].CONTAINING;
 				break;
 		}
 
