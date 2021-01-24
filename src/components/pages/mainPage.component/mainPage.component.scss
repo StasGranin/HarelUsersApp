@@ -1,11 +1,8 @@
 .mainPage {
 
 	.globalFilterBox {
+		display: flex;
 
+		input {flex-grow: 1}
 	}
-
-	.usersTable {
-
-	}
-
 }
