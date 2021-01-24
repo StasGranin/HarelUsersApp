@@ -61,7 +61,7 @@ const getFilterByKey = (key, filters) => filters.find(item => item.key === key);
 
 //{key: 'id', label: 'ID', dataType: 'NUMBER', type: 'LESS_THAN', value: 10}, {key: 'lastName', label: 'Last Name', dataType: 'STRING', type: 'CONTAINING', value: 'a'}
 
-export default ({tableColumns, tableData, onItemClick}) => {
+export default ({tableColumns, tableData, onRowClick}) => {
 
 	const [filteredTableData, setFilteredTableData] = useState([]);
 	const [sortingProps, setSortingProps] = useState({});
@@ -115,7 +115,7 @@ export default ({tableColumns, tableData, onItemClick}) => {
 					</tr>
 				</thead>
 				<tbody>
-					{filteredTableData.map((item, index) => <tr className="tableItemRow" key={index} onClick={()=>onItemClick(item)}>
+					{filteredTableData.map((item, index) => <tr className="tableItemRow" key={index} onClick={()=>onRowClick(item.id)}>
 						{tableColumns.map(column => <td key={`${column.key}.${index}`}>
 							{column.dataFormat && typeof column.dataFormat === 'function' && column.dataFormat(item[column.key]) || item[column.key]}
 						</td>)}
