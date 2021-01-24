@@ -9,6 +9,8 @@ import {texts} from '../../services/language.service';
 
 import './dynamicTable.component.scss';
 
+// All these functions should be in a dedicated service. Maybe next time :)
+
 const updateTableData = (tableData, filters, sortingProps) => {
 	filters.forEach(filter => {
 		tableData = FilterService.filterArray(tableData, filter)
@@ -59,7 +61,6 @@ const updateColumnFilter = (filter, filters) => {
 
 const getFilterByKey = (key, filters) => filters.find(item => item.key === key);
 
-//{key: 'id', label: 'ID', dataType: 'NUMBER', type: 'LESS_THAN', value: 10}, {key: 'lastName', label: 'Last Name', dataType: 'STRING', type: 'CONTAINING', value: 'a'}
 
 export default ({tableColumns, tableData, onRowClick}) => {
 

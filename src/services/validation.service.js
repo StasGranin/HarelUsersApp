@@ -10,7 +10,7 @@ class ValidationService {
 
 		formFields.forEach(field => {
 			const {key, validation: validations} = field;
-			const value = fieldValues[key];
+			const value = fieldValues[key] || '';
 
 			validations.some(validation => {
 				let isValid = true;

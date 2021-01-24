@@ -11,7 +11,7 @@ import {validationTypes, fieldTypes} from '../../../services/validation.service'
 import UsersService from '../../../services/users.service';
 import {setUserDetails} from '../../../actions/users.actions';
 
-import DynamicForm from '../../form.component/dynamicForm.component.jsx';
+import DynamicForm from '../../dynamicForm.component/dynamicForm.component.jsx';
 
 import './editUserPage.component.scss';
 

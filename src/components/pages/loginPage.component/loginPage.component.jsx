@@ -1,6 +1,6 @@
 "use strict";
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from "react-router-dom";
@@ -9,7 +9,7 @@ import {texts} from '../../../services/language.service';
 import {validationTypes, fieldTypes} from '../../../services/validation.service';
 import {login} from '../../../actions/auth.actions';
 
-import DynamicForm from '../../form.component/dynamicForm.component.jsx';
+import DynamicForm from '../../dynamicForm.component/dynamicForm.component.jsx';
 
 import './loginPage.component.scss';
 
@@ -57,8 +57,6 @@ const loginFormFields = [
 
 const LoginPage = ({isLoggedIn, login, history}) => {
 
-	const [auth, setAuth] = useState({email: '', firstName: '', lastName: '', password: ''});
-
 	const loginButtonOnClick = (loginData) => {
 		login(loginData).then((response) => response.token && history.push('/'));
 	};
@@ -69,12 +67,10 @@ const LoginPage = ({isLoggedIn, login, history}) => {
 			<div className="panel">
 				<DynamicForm
 					formFields={loginFormFields}
-					values={auth}
 					onSubmit={loginButtonOnClick}
 					submitLabel={texts.buttonLabels.LOGIN}
 				/>
 			</div>
-
 		</div>
 	);
 };

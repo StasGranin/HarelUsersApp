@@ -30,7 +30,7 @@ class FilterService {
 				break;
 		}
 
-		return {key, label, dataType, type: initialType, value: ''}
+		return {key, label, dataType, type: initialType, value: ''}; //{key: 'id', label: 'ID', dataType: 'NUMBER', type: 'LESS_THAN', value: 10}
 	}
 
 	filterArray(arr, filter) {

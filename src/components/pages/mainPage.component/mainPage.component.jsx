@@ -35,16 +35,13 @@ const MainPage = ({users, isLoaded, getUsers, history}) => {
 		<div className="mainPage">
 			{isLoaded && <>
 				<div className="pageTitle">{texts.pageHeaders.MAIN_PAGE}</div>
-
-			<div className="panel globalFilterBox">
-				<input name="globalFilter" placeholder={texts.filters.FILTER} value={filter.value} onChange={handleFilterChange} />
-			</div>
-
-			<div className="panel usersTable">
-				<DynamicTable tableColumns={usersTableColumns} tableData={filteredUsers} onRowClick={handleTableRowClick} />
-			</div>
+				<div className="panel globalFilterBox">
+					<input name="globalFilter" placeholder={texts.filters.FILTER} value={filter.value} onChange={handleFilterChange} />
+				</div>
+				<div className="panel usersTable">
+					<DynamicTable tableColumns={usersTableColumns} tableData={filteredUsers} onRowClick={handleTableRowClick} />
+				</div>
 			</> || <div className="pageTitle">{texts.pageHeaders.LOADING}</div>}
-
 		</div>
 	);
 };
