@@ -21,6 +21,7 @@ export const texts = {
 	filters: {
 		FILTER_BY: 'Filter by',
 		FILTERS: 'Filters',
+		FILTER: 'Filter',
 
 		filterTypes: {
 			[dataTypes.NUMBER]: {
