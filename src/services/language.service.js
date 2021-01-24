@@ -3,9 +3,25 @@
 import {dataTypes, filterTypes} from './filter.service';
 
 export const texts = {
+	pageHeaders: {
+		LOADING: 'Loading...',
+		MAIN_PAGE: 'Users',
+		EDIT_USER: 'Edit User:',
+		LOGIN: 'Please Login'
+	},
+
+	buttonLabels: {
+		APPLY: 'Apply',
+		CANCEL: 'Cancel',
+		LOGIN: 'Login',
+		SAVE: 'Save Changes',
+		SUBMIT: 'Submit',
+	},
+
 	filters: {
 		FILTER_BY: 'Filter by',
 		FILTERS: 'Filters',
+
 		filterTypes: {
 			[dataTypes.NUMBER]: {
 				[filterTypes[dataTypes.NUMBER].LESS_THAN]: 'Less than',
@@ -38,5 +54,46 @@ export const texts = {
 		LAST_NAME: 'Last Name',
 		DATE: 'Date',
 		PHONE: 'Phone Number'
+	},
+
+	loginForm: {
+		labels: {
+			FIRST_NAME: 'First Name',
+			LAST_NAME: 'Last Name',
+			EMAIL: 'Email',
+			PASSWORD: 'Password'
+		},
+
+		validationErrors: {
+			FIRST_NAME_EMPTY: 'First Name cannot be empty',
+			LAST_NAME_EMPTY: 'Last Name cannot be empty',
+			EMAIL_EMPTY: 'Email cannot be empty',
+			EMAIL_INVALID: 'Email is invalid',
+			PASSWORD_EMPTY: 'Password cannot be empty',
+		}
+	},
+
+	editUserForm: {
+		labels: {
+			FIRST_NAME: 'First Name',
+			LAST_NAME: 'Last Name',
+			EMAIL: 'Email',
+			DATE: 'Date',
+			PHONE: 'Phone Number',
+			ACCOUNT: 'Account',
+			ACCOUNT_NAME: 'Account Name'
+		},
+
+		validationErrors: {
+			FIRST_NAME_EMPTY: 'First Name cannot be empty',
+			LAST_NAME_EMPTY: 'Last Name cannot be empty',
+			EMAIL_EMPTY: 'Email cannot be empty',
+			EMAIL_INVALID: 'Email is invalid',
+			DATE_EMPTY: 'Date cannot be empty',
+			DATE_INVALID: 'Date is invalid',
+			PHONE_EMPTY: 'Phone Number cannot be empty',
+			ACCOUNT_EMPTY: 'Account cannot be empty',
+			ACCOUNT_NAME_EMPTY: 'Account Name cannot be empty',
+		}
 	}
 };
