@@ -44,7 +44,7 @@ class FilterService {
 
 				case dataTypes.STRING:
 				default:
-					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join('@@@'), filter.type || filterTypes[dataTypes.STRING].CONTAINING, filter.value);
+					return this.stringFilterFn(filter.key && item[filter.key] || Object.values(item).join(' '), filter.type || filterTypes[dataTypes.STRING].CONTAINING, filter.value);
 			}
 		});
 	}
